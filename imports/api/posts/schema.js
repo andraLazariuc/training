@@ -14,7 +14,17 @@ PostSchema = new SimpleSchema({
         label: "Description",
         optional: true,
         max: 1000
-    }
+    }/*,
+    updatedAt: {
+        type: Date,
+        optional:true,
+        autoform: {
+             type: "hidden",
+             omit: true
+             label: false
+           }
+    }*/
+
 });
 
 Posts.attachSchema(PostSchema);

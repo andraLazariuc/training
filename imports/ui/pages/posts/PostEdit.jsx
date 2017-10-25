@@ -10,6 +10,8 @@ import PostSchema from '/imports/api/posts/schema.js';
 
 import wrapWithTryCatch from 'react-try-catch-render';
 import '/imports/api/posts/methods.js';
+//diff between docs
+require("babel-polyfill");
 
 export default class PostEdit extends React.Component {
   constructor(id) {
@@ -36,24 +38,32 @@ export default class PostEdit extends React.Component {
           }
       })
   }
-	onSubmit = data => {	   
+	onSubmit = data => {	
+    // used for updating whole doc with {validate:false} 
+    // myCollection.update(someId, myDoc, {validate: false});
+      /*PostSchema.clean(data); 
+      check(data, PostSchema);   */
+
+    //diff_docs will contain the diff between the 2 docs already formated for Posts.update
+      var diff = require('rus-diff').diff;
+      var diff_docs = diff(this.state.post, data);
 	    
-      Meteor.call('post.edit', data, (err, res) => {
+      /* wouldn't it be better to check for post.userId here? */
+      //if(Meteor.userId() != data.userId){ 
+
+      Meteor.call('post.edit', data._id, diff_docs , (err, res) => {
              if(err){
                alert(err.reason);
-               //throw new Error( err.message);
-               
+               //throw new Error( err.message);               
              }
              else{
-                console.log('Succes Editing Post');  
-                route.go('/post/list'); //how to reload autoform?                      
+                alert('Succes Editing Post');  
+                route.go('/post/list');    
              }
           }) 
 	};
     render() {
-       /* const EditForm = ({model}) =>
-            <AutoForm schema={PostSchema} onSubmit={doc => db.save(doc)} model={model} />
-        ;*/
+      
        return (
 
         <div className="col-md-offset-4 col-md-4 col-xs-12 container register-login">
@@ -64,8 +74,7 @@ export default class PostEdit extends React.Component {
                   schema={PostSchema}
                   onSubmit={this.onSubmit}
                   model = {this.state.post}
-              />
-              
+              />              
             </div>
           </div>
         </div>
