@@ -23,9 +23,8 @@ react-meteor-data
 accounts-base
 accounts-password
 twbs:bootstrap
-aldeed:simple-schema
 alanning:roles
-aldeed:collection2-core
 matb33:collection-hooks
 dburles:mongo-collection-instances
 fortawesome:fontawesome
+aldeed:collection2-core@2.0.0

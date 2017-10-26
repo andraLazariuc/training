@@ -7,7 +7,7 @@ import route from '/imports/routing/router.js';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 
 // A compatible schema
-import {LoginSchema} from '/imports/schemas/LoginSchema';
+import LoginSchema from '/imports/schemas/LoginSchema';
 
 
 
@@ -15,7 +15,6 @@ export default class Login extends React.Component {
   onClickRegister(location) { route.go(location); }
 	onSubmit = data => {
 	   
-	    console.log(data);
       Meteor.loginWithPassword(data.email, data.password, function (err, res) {
         if (err) {
             console.log('There was an error: ', err);
@@ -27,9 +26,7 @@ export default class Login extends React.Component {
       });
 	};
     render() {
-       /* const PostForm = ({model}) =>
-            <AutoForm schema={PostSchema} onSubmit={doc => db.save(doc)} model={model} />
-        ;*/
+      
        return (
 
         <div className="col-md-offset-4 col-md-4 col-xs-12 container register-login">

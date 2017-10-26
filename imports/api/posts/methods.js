@@ -30,44 +30,9 @@ Meteor.methods({
 					console.log('Wooho! No Errors updating post : ' );
 				}
 			});
-			console.log(data);
+			//console.log(data);
 		}
-		/*var post = Meteor.call('post.get', id);
-		if(Meteor.userId() != post.userId){
-			throw new Meteor.Error(403, "Not matching user ids! You are not allowed to edit another user's post!");
-		} else{
-			Posts.update(id, data, (errUpdate, resUpdate) => {
-				if (errUpdate) {
-					console.log('There was an error updating post: ', errUpdate);
-				} else {
-					console.log('Wooho! No Errors updating post : ' );
-				}
-			});
-			console.log(data);
-		}*/
-
-		/*Meteor.call('post.get', id, (err, res)=> {
-			if(err){
-				throw new Meteor.Error(403, "Can't find this post in the database: invalid post id!");
-			}
-			else{
-				console.log(res);
-				if(Meteor.userId() != res.userId){
-					throw new Meteor.Error(403, "Not matching user ids! You are not allowed to edit another user's post!");
-				}
-				else{
-					Posts.update(id, data, (errUpdate, resUpdate) => {
-						if (errUpdate) {
-							console.log('There was an error updating post: ', errUpdate);
-    					              // in err object you have to (err.error, err.reason, err.details)
-    					} else {
-    					    console.log('Wooho! No Errors updating post : ' );
-    					}
-    				});
-					console.log(data);
-				}
-			}    		     	
-    	}); */
+		
 	}
 })
 

@@ -7,7 +7,7 @@ import route from '/imports/routing/router.js';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 
 // A compatible schema
-import {RegisterSchema} from '/imports/schemas/RegisterSchema';
+import RegisterSchema from '/imports/schemas/RegisterSchema';
 
 import wrapWithTryCatch from 'react-try-catch-render'
 
@@ -21,8 +21,7 @@ class MyErrorHandler extends React.Component {
 
  class Register extends React.Component {
 	onSubmit = data => {	   
-	    //console.log(data);
-
+	    
      Meteor.call('user.register', data, (err, res) => {
         if(err){
           alert(err.reason);

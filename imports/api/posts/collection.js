@@ -1,11 +1,9 @@
 import { Mongo } from 'meteor/mongo';
-
+import PostSchema from'./schema.js';
 
 const Posts = new Mongo.Collection('posts');
 
-Posts.before.insert(function (userId, doc) {
-  doc.createdAt = Date.now();
-  doc.userId = Meteor.userId();
-});
 
+
+Posts.attachSchema(PostSchema);
 export default Posts;

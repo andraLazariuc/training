@@ -14,13 +14,27 @@
 
 }
 .post-list-item{
-	float:right;
+	
 	text-align: right;
+	margin-right: 20px;
+}
+.post-list-buttons{
 	margin-right: 20px;
 }
 .editPostBtn{
 	float:right;
+	margin: 2px 10px;
 }
-button {
-	margin:10px;
+.btn{
+	margin-right: 10px;
+	margin-left: 10px;
 }
+.topBtn{
+	margin-top: 20px;
+	margin-bottom: 20px !important;
+}
+.editCommentBtn{
+	float:right;
+	margin-right: 40px;
+}
+

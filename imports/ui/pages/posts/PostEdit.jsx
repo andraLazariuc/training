@@ -6,7 +6,7 @@ import route from '/imports/routing/router.js';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 
 // A compatible schema
-import PostSchema from '/imports/api/posts/schema.js';
+import PostUiSchema from './schema.js';
 
 import wrapWithTryCatch from 'react-try-catch-render';
 import '/imports/api/posts/methods.js';
@@ -28,7 +28,6 @@ export default class PostEdit extends React.Component {
       Meteor.call('post.get', this.state.postId, (err, res) => {
           if (err) {
               console.log('There was an error loading post: ', err);
-              // in err object you have to (err.error, err.reason, err.details)
           } else {
               console.log('Wooho! No Errors loading post to edit: ' );console.log(res.userId);
               this.setState({
@@ -71,7 +70,7 @@ export default class PostEdit extends React.Component {
             <div className="panel-heading text-center"><strong>Edit Post</strong></div>
             <div className="panel-body">
               <AutoForm
-                  schema={PostSchema}
+                  schema={PostUiSchema}
                   onSubmit={this.onSubmit}
                   model = {this.state.post}
               />              

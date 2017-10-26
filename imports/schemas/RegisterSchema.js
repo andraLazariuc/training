@@ -1,8 +1,8 @@
-//import SimpleSchema from 'simpl-schema';
-import {SimpleSchema} from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
+//import {SimpleSchema} from 'meteor/aldeed:simple-schema';
 
 
-export const RegisterSchema =new SimpleSchema({
+export default RegisterSchema =new SimpleSchema({
   email: {
     label: "Email",
     type: String,

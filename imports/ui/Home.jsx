@@ -4,8 +4,7 @@ import route from '/imports/routing/router.js';
 import React from 'react';
 //import Paginator from 'react-paginator';
 import { createContainer } from 'meteor/react-meteor-data';
-//import Donuts from '/imports/api/donuts/collection.js'
-//import '/imports/api/donuts/methods.js';
+
 
  class Home extends React.Component {
   
@@ -30,6 +29,8 @@ import { createContainer } from 'meteor/react-meteor-data';
                         <button className="btn btn-primary" onClick={_ => this.onLogOut()}>Log Out</button>
 
                         <button className="btn btn-primary" onClick={_ => this.onClickChangeRoute('/post/create')}>Add Post</button>
+
+                        <button className="btn btn-primary" onClick={_ => this.onClickChangeRoute('/post/list')}>Posts List</button>
                     </div>
                     </div>
                 )

@@ -1,7 +1,7 @@
 import Posts from '/imports/api/posts/collection.js'
 import SimpleSchema from 'simpl-schema';
 
-export default PostSchema = new SimpleSchema({
+export default PostUiSchema = new SimpleSchema({
     title: {
         type: String,
         label: "Title",
@@ -12,18 +12,6 @@ export default PostSchema = new SimpleSchema({
         label: "Description",
         optional: true,
         max: 1000
-    },
-    userId:{
-        type: String,
-        optional: true
-    },
-    createdAt:{
-        type: Date,
-        optional: true
-    },
-    updatedAt:{
-        type: Date,
-        optional: true
     }
 });
 
