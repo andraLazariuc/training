@@ -2,7 +2,8 @@
   "name": "andraFinalBoss",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "test": "meteor test --driver-package=practicalmeteor:mocha --settings settings-dev.json --port 3100"
   },
   "dependencies": {
     "babel": "^6.23.0",
@@ -10,6 +11,7 @@
     "babel-runtime": "^6.20.0",
     "bcrypt": "^1.0.3",
     "graphql": "^0.11.7",
+    "imports": "^1.0.0",
     "meteor-node-stubs": "~0.2.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -20,6 +22,26 @@
     "uniforms-unstyled": "^1.22.0-rc.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.44",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.44",
+    "@meteorjs/eslint-config-meteor": "^1.0.5",
+    "autoprefixer": "^8.3.0",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-meteor": "^7.0.0-beta.44",
+    "chai": "^4.1.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-import-resolver-meteor": "^0.4.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-meteor": "^4.2.2",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.8.2",
+    "mocha": "^5.1.0",
+    "postcss-flexbox": "^1.0.3",
     "react-try-catch-render": "^1.0.0"
   }
 }

@@ -1,88 +1,76 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import route from '/imports/routing/router.js';
-
-import CommentView from '/imports/ui/pages/comments/CommentView.jsx';
-
-import wrapWithTryCatch from 'react-try-catch-render';
-import '/imports/api/posts/methods.js';
-import '/imports/api/comments/methods.js';
-
-import Posts from '/imports/api/posts/collection.js';
-import Comments from '/imports/api/comments/collection.js';
-import { createContainer } from 'meteor/react-meteor-data';
+import CommentsList from '/imports/ui/pages/comments/CommentsList.jsx';
+import Posts from '/imports/api/posts';
 
 class PostView extends React.Component {
+  onClickChangeRoute(location) {
+    route.go(location);
+  }
+  onLogOut() {
+    Meteor.logout((err) => {
+      console.log(`${err} uid: ${Meteor.userId()}`);
+    });
+    route.go('/');
+  }
 
-    onClickChangeRoute(location) { route.go(location); }
-    onLogOut() { 
-        Meteor.logout(function(err){ 
-          console.log(err + ' uid: ' + Meteor.userId());
-        }); 
-        route.go('/');
-       
+  render() {
+    const { loading, post } = this.props;
+
+    if (loading) {
+      return <div>Loading </div>;
     }
+    const { _id, title, description } = post;
 
-    render() {
-      const {loading, post } = this.props; 
-      if(loading){
-        //console.log('post inside renderer PostView loading true: ' ); console.log(post);
-        return <div>Loading </div>
-      }else{
-        //console.log('post inside renderer PostView loading false: ' ); console.log(post);
-        
-       return (
-        <div>
+    return (
+      <div>
         <div className="col-xs-12 col-md-offset-2 col-md-8 text-right">
-          <button className="btn btn-primary topBtn" onClick={_ => this.onClickChangeRoute('/post/list')}>Posts List</button>
-          <button className="btn btn-primary topBtn" onClick={_ => this.onLogOut()}>Log Out</button>           
+          <button
+            className="btn btn-primary topBtn"
+            onClick={() => this.onClickChangeRoute('/post/list')}
+          >
+            Posts List
+          </button>
+          <button
+            className="btn btn-primary topBtn"
+            onClick={() => this.onLogOut()}
+          >
+            Log Out
+          </button>
         </div>
         <div className="col-md-offset-2 col-md-8 col-xs-12 container ">
           <div className="panel panel-default">
-            <div className="panel-heading text-center"><strong>{post.title}</strong></div>
+            <div className="panel-heading text-center">
+              <strong>{title}</strong>
+            </div>
             <div className="panel-body">
-              <div className="col-xs-12">{post.description}</div>
-              <br></br><br></br>
-              {<CommentView postId={post._id}/>   }        
+              <div className="col-xs-12">{description}</div>
+              <br />
+              <br />
+              <CommentsList postId={_id} />
             </div>
           </div>
         </div>
-        </div>
-                     
-      )
-     }
-    }
+      </div>
+    );
+  }
 }
 
 export default createContainer(() => {
-  
+  const isObjectEmpty = obj => Object.keys(obj).length === 0;
+
   const handlePosts = Meteor.subscribe('posts');
+  const postId = FlowRouter.getParam('_id');
 
-  var _postId = FlowRouter.getParam('_id'); 
-  
-  var _post = {};
- /* Meteor.call('post.get', _postId, (err, res) => {
-            if (err) {
-                _post = {};
-            } else {              
-                _post = res;              
-            }
-          });*/
-  _post = Posts.findOne({ _id :  _postId });
-     
-  function isEmpty(obj) {
-      for(var prop in obj) {
-             if(obj.hasOwnProperty(prop))
-                 return false;
-         }
+  let post = {};
+  post = Posts.findOne({ _id: postId });
 
-         return true;
-  }
-return {
-            
-          loading: !handlePosts.ready() && isEmpty(_post),          
-          //post: Posts.findOne({ _id :  _postId })
-          post: _post
-          
-      }
+  return {
+    loading: !handlePosts.ready() && !(post && isObjectEmpty(post)),
+    post,
+  };
 }, PostView);

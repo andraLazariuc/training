@@ -1,4 +1,4 @@
-import route from './router.js';
+import route from './router';
 import Home from '/imports/ui/Home.jsx';
 import Login from '/imports/ui/pages/user/Login.jsx';
 import Register from '/imports/ui/pages/user/Register.jsx';

@@ -28,3 +28,11 @@ matb33:collection-hooks
 dburles:mongo-collection-instances
 fortawesome:fontawesome
 aldeed:collection2-core@2.0.0
+dburles:factory
+johanbrook:publication-collector
+practicalmeteor:chai
+random
+underscore
+ddp-client
+xolvio:cleaner
+practicalmeteor:mocha

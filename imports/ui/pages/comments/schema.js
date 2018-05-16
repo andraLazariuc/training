@@ -1,15 +1,10 @@
-import Comments from '/imports/api/comments/collection.js'
 import SimpleSchema from 'simpl-schema';
+import Comments from '/imports/api/comments';
 
-
-export default CommentUiSchema = new SimpleSchema({
-    text: {
-        type: String,
-        label: "Comment: ",
-        max: 200
-    }
-});
-
-
-
- 
+export default (CommentUiSchema = new SimpleSchema({
+  text: {
+    type: String,
+    label: 'Comment: ',
+    max: 200
+  }
+}));
