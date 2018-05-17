@@ -1,10 +1,2 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-
+import '/imports/startup/client';
 import './main.html';
-
-import { Meteor } from 'meteor/meteor';
-import '/imports/startup/client'
-
-
-
