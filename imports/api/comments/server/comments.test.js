@@ -1,15 +1,11 @@
 /* eslint-env mocha */
 /* eslint-disable func-names, prefer-arrow-callback */
 import { Meteor } from 'meteor/meteor';
-import { DDP } from 'meteor/ddp-client';
 import { Factory } from 'meteor/dburles:factory';
 import { PublicationCollector } from 'meteor/johanbrook:publication-collector';
 import { chai, assert } from 'meteor/practicalmeteor:chai';
 import { Random } from 'meteor/random';
-import faker from 'faker';
 import { _ } from 'meteor/underscore';
-
-import { Accounts } from 'meteor/accounts-base';
 
 import './publication.js';
 import '../../factories';
@@ -17,55 +13,6 @@ import { createPostWithComments } from '../../generate-data.test';
 import Posts from '../../posts/';
 import Comments from '../comments';
 import { add, list, get, remove, checkOwner } from './methods';
-import { register, login } from '../../user//server//methods';
-
-const generateFakeNewUser = () => ({
-  emails: [
-    {
-      address: faker.internet.email(),
-      verified: false,
-    },
-  ],
-  password: 'parola1234',
-  // password: Random.secret(10),
-});
-
-const registerNewUser = () => {
-  const user = generateFakeNewUser();
-
-  return register(
-    {
-      email: user.emails[0].address,
-      password1: user.password,
-      password2: user.password,
-    },
-    function (registerErr, registerResult) {
-      console.log('register result ', registerErr, registerResult);
-      if (registerErr) {
-        return undefined;
-      }
-
-      return registerResult;
-    },
-  );
-};
-
-const logInUser = ({ connection, user }) => {
-  connection.call(
-    'login',
-    {
-      user: { email: user.emails[0].address },
-      password: Accounts._hashPassword('parola1234'),
-    },
-    function (loginError) {
-      if (loginError) {
-        return false;
-      }
-
-      return true;
-    },
-  );
-};
 
 describe('comments', function () {
   describe('mutators', function () {
