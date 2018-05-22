@@ -9,6 +9,7 @@
     "@babel/runtime": "^7.0.0-beta.44",
     "babel-polyfill": "^6.26.0",
     "bcrypt": "^1.0.3",
+    "faker": "^4.1.0",
     "graphql": "^0.11.7",
     "imports": "^1.0.0",
     "meteor-node-stubs": "~0.2.4",
@@ -41,6 +42,8 @@
     "eslint-plugin-react": "^7.8.2",
     "mocha": "^5.1.0",
     "postcss-flexbox": "^1.0.3",
-    "react-try-catch-render": "^1.0.0"
+    "react-try-catch-render": "^1.0.0",
+    "superagent": "^3.8.3",
+    "supertest": "^3.1.0"
   }
 }

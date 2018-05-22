@@ -36,3 +36,5 @@ underscore@1.0.10
 ddp-client@2.3.1
 xolvio:cleaner
 cultofcoders:mocha
+check
+mdg:validated-method

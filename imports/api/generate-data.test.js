@@ -4,15 +4,18 @@ import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Random } from 'meteor/random';
 import { _ } from 'meteor/underscore';
 
-import { denodeify } from '../utils/denodeify';
+import { denodeify } from '/imports/utils/denodefy';
+import './factories';
 
 export const createPostWithComments = userId => {
   const post = Factory.create('post', { userId });
-  // generate 9 comments for each post, 3 from the post's owner
-  // and another 3/user for 2 random users
-  _.times(3, () => {
-    Factory.create('comment', { postId: post._id });
-    _.times(2, () => Factory.create('comment', { postId: Random.id() }));
+  // generate 6 comments for each post, 2 from the post's owner
+  // and another 2/user for 2 random users
+  _.times(2, () => {
+    Factory.create('comment', { postId: post._id, userId });
+    _.times(2, () =>
+      Factory.create('comment', { postId: post._id, userId: Random.id() }),
+    );
   });
   return post;
 };
@@ -23,7 +26,7 @@ Meteor.methods({
 
     // create 3 posts
     _.times(3, () => createPostWithComments(Random.id()));
-  }
+  },
 });
 
 if (Meteor.isClient) {

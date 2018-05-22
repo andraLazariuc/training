@@ -1,26 +1,36 @@
 import { Meteor } from 'meteor/meteor';
-//import Donuts from '/imports/api/donuts/collection';
-import Security from '/imports/api/security.js';
-import { Accounts } from 'meteor/accounts-base'
+import { Accounts } from 'meteor/accounts-base';
+
+export const register = ({ email, password1, password2 }) => {
+  if (Accounts.findUserByEmail(email) != null) {
+    throw new Meteor.Error(
+      403,
+      'There is already an account with this email! ',
+    );
+  } else if (password1 !== password2) {
+    throw new Meteor.Error(403, "Passwords don't match");
+  } else {
+    const userId = Accounts.createUser({
+      email,
+      password: password2,
+    });
+    if (userId !== '') {
+      return userId;
+    }
+    throw new Meteor.Error(403, "Can't create user");
+  }
+};
+
+export const login = ({ user, password }) => {
+  console.log(user, password);
+  Meteor.loginWithPassword(user, password, (err) => {
+    if (err) {
+      console.log('There was an error: ', err);
+    }
+  });
+};
 
 Meteor.methods({
-    'user.register': function (data) { 
-    	if(Accounts.findUserByEmail(data.email) != null){
-    		throw new Meteor.Error(403, "There is already an account with this email! ");
-    	}
-    	else{
-    		if (data.password1 != data.password2) {
-    			throw new Meteor.Error(403, "Passwords don't match");
-    		} else {
-    			const userId = Accounts.createUser({  email: data.email, password: data.password2 });
-	    		if(userId != ''){
-	    		  	return true;
-	    		  }
-	    		  else{
-	    		  	throw new Meteor.Error(403, "Can't create user");
-	    		  }    		  
-    		}
-    	}
-        
-    }
-})
+  'user.login': login,
+  'user.register': register,
+});

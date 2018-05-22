@@ -1,62 +1,108 @@
 import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import Comments from '/imports/api/comments';
 
-export const add = (comment) => {
-  if (!Meteor.userId()) {
+export const checkCommentOwner = (contextUserId, commentId) => {
+  if (!commentId) {
+    return false;
+  }
+
+  const comment = Meteor.call('comment.get', commentId);
+  const commentOwnerId = comment ? comment.userId : '';
+  if (!commentOwnerId) {
+    return false;
+  }
+
+  return contextUserId === commentOwnerId;
+};
+
+// export const add = new ValidatedMethod({
+//   name: 'comment.add',
+//   validate: new SimpleSchema({
+//     // comment: { type: Object },
+//     text: {
+//       type: String,
+//     },
+//     userId: {
+//       type: String,
+//       optional: true,
+//     },
+//     postId: {
+//       type: String,
+//       optional: true,
+//     },
+//     createdAt: {
+//       type: Date,
+//       optional: true,
+//     },
+//     // text: { type: String },
+//   }).validator(),
+//   run({ text, userId, postId, createdAt }) {
+//     if (!this.userId) {
+//       throw new Meteor.Error(
+//         'comments.insert.accessDenied',
+//         'You need to be logged in to add comments to posts!',
+//       );
+//     }
+
+//     return Comments.insert({ text, userId, postId, createdAt });
+//   },
+// });
+
+export const add = function (comment) {
+  console.log('userId in add method', this.userId);
+  if (!this.userId) {
     throw new Meteor.Error(
       'comments.insert.accessDenied',
       'You need to be logged in to add comments to posts!',
     );
   }
 
-  Comments.insert(comment);
+  return Comments.insert(comment);
 };
 
 export const list = postId => Comments.find({ postId }).fetch();
 
 export const get = id => Comments.findOne({ _id: id });
 
-export const remove = (id) => {
-  Meteor.call('comment.check_owner', id, (errOwner) => {
-    if (errOwner) {
-      return false;
-    }
-
-    return Comments.remove({ _id: id }, (err) => {
-      if (err) {
-        throw new Meteor.Error(
-          403,
-          `There was an error while deleting the comment: ${err}`,
-        );
-      }
-      // console.log('Wooho! No Errors deleting comment  ');
-      return true;
-    });
-  });
-};
-
-export const checkOwner = (id) => {
-  if (!id) {
-    return false;
-  }
-
-  const comment = Meteor.call('comment.get', id);
-  const userId = comment ? comment.userId : '';
-
-  if (Meteor.userId() !== userId) {
+export const remove = function (id) {
+  if (!this.userId) {
     throw new Meteor.Error(
-      403,
-      "Not matching user ids! You are not allowed to edit another user's comment!",
+      'comments.remove.accessDeniedNotLoggedIn',
+      'You need to be logged in to delete comments!',
     );
   }
-  return true;
+
+  const isCommentOwner = checkCommentOwner(this.userId, id);
+
+  if (!isCommentOwner) {
+    throw new Meteor.Error(
+      'comments.remove.accessDeniedNotOwner',
+      'You can only delete your own comments!',
+    );
+  }
+
+  return Comments.remove({ _id: id }, (err) => {
+    if (err) {
+      throw new Meteor.Error(
+        403,
+        `There was an error while deleting the comment: ${err}`,
+      );
+    }
+    // console.log('Wooho! No Errors deleting comment  ');
+    return true;
+  });
 };
 
 Meteor.methods({
   'comment.add': add,
+  // [add.name]: (args) => {
+  //   add.validate.call(this, args);
+  //   add.run.call(this, args);
+  // },
   'comment.list': list,
   'comment.get': get,
   'comment.remove': remove,
-  'comment.check_owner': checkOwner,
 });
