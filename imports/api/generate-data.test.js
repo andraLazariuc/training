@@ -5,7 +5,6 @@ import { Random } from 'meteor/random';
 import { _ } from 'meteor/underscore';
 
 import { denodeify } from '/imports/utils/denodefy';
-import './factories';
 
 export const createPostWithComments = userId => {
   const post = Factory.create('post', { userId });

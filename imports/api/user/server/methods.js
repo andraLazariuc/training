@@ -22,7 +22,6 @@ export const register = ({ email, password1, password2 }) => {
 };
 
 export const login = ({ user, password }) => {
-  console.log(user, password);
   Meteor.loginWithPassword(user, password, (err) => {
     if (err) {
       console.log('There was an error: ', err);

@@ -11,6 +11,7 @@ export const checkCommentOwner = (contextUserId, commentId) => {
 
   const comment = Meteor.call('comment.get', commentId);
   const commentOwnerId = comment ? comment.userId : '';
+
   if (!commentOwnerId) {
     return false;
   }
@@ -52,7 +53,6 @@ export const checkCommentOwner = (contextUserId, commentId) => {
 // });
 
 export const add = function (comment) {
-  console.log('userId in add method', this.userId);
   if (!this.userId) {
     throw new Meteor.Error(
       'comments.insert.accessDenied',

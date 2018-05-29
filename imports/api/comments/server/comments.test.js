@@ -8,7 +8,7 @@ import { Random } from 'meteor/random';
 import { _ } from 'meteor/underscore';
 
 import './publication.js';
-import '../../factories';
+import { testUser, testPost, testComment } from '../../factories.test';
 import { createPostWithComments } from '../../generate-data.test';
 import Posts from '../../posts/';
 import Comments from '../comments';

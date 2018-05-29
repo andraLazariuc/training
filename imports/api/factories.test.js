@@ -2,9 +2,13 @@ import { Meteor } from 'meteor/meteor';
 import { Factory } from 'meteor/dburles:factory';
 import { Random } from 'meteor/random';
 import faker from 'faker';
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
 import Posts from './posts';
 import Comments from './comments';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 Factory.define('user', Meteor.users, {
   // username: () => faker.lorem.word(),
@@ -37,3 +41,7 @@ Factory.define('comment', Comments, {
   text: () => faker.lorem.sentence(),
   createdAt: () => new Date(),
 });
+
+export const TEST_EMAIL = 'test@test.com';
+export const TEST_USERNAME = 'testUsername';
+export const TEST_PASSWORD = 'password';
