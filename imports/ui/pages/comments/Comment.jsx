@@ -1,13 +1,25 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
 
-const isOwner = userId => Meteor.userId() === userId;
-
-const Comment = ({ comment }) => {
+const Comment = ({ comment, loggedInUserId }) => {
   const { _id, createdAt, userId, text } = comment;
 
   const cdate = new Date(createdAt).toLocaleString();
-  const isCommentOwner = isOwner(userId);
+  const isCommentOwner = loggedInUserId === userId;
+
+  const onClickDeleteComment = (id) => {
+    Meteor.call('comment.remove', id, (err) => {
+      if (err) {
+        alert(err.reason);
+        // throw new Error( err.message);
+      }
+    });
+  };
+
+  if (!(_id && userId && text && createdAt)) {
+    return null;
+  }
 
   return (
     <li className="list-group-item" key={_id}>
@@ -20,7 +32,7 @@ const Comment = ({ comment }) => {
         {isCommentOwner && (
           <button
             className=" btn btn-danger editCommentBtn"
-            onClick={() => this.onClickDeleteComment(_id)}
+            onClick={() => onClickDeleteComment(_id)}
           >
             <i className="fa fa-times" aria-hidden="true" /> Delete
           </button>
@@ -30,4 +42,9 @@ const Comment = ({ comment }) => {
   );
 };
 
-export default Comment;
+export default createContainer(
+  () => ({
+    loggedInUserId: Meteor.userId(),
+  }),
+  Comment,
+);

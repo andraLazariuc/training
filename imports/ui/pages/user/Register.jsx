@@ -11,17 +11,17 @@ class MyErrorHandler extends React.Component {
   }
 }
 class Register extends React.Component {
-  onSubmit = data => {
+  onSubmit = (data) => {
     Meteor.call('user.register', data, (err, res) => {
       if (err) {
         alert(err.reason);
-        //throw new Error( err.message);
+        // throw new Error( err.message);
       } else {
         Meteor.loginWithPassword(data.email, data.password2, (err, res) => {
           if (err) {
-            alert('Error loggin in: ' + err.reason);
+            alert(`Error loggin in: ${err.reason}`);
             route.go('/login');
-            //throw new Error( err.message);
+            // throw new Error( err.message);
           } else {
             route.go('/');
           }
@@ -47,5 +47,5 @@ class Register extends React.Component {
 }
 
 export default wrapWithTryCatch(React, MyErrorHandler, {
-  error: 'Error while creating user account: '
+  error: 'Error while creating user account: ',
 })(Register);

@@ -9,13 +9,13 @@ export default class Login extends React.Component {
     route.go(location);
   }
 
-  onSubmit = data => {
-    Meteor.loginWithPassword(data.email, data.password, function(err, res) {
+  onSubmit = (data) => {
+    Meteor.loginWithPassword(data.email, data.password, (err, res) => {
       if (err) {
         console.log('There was an error: ', err);
       } else {
         console.log('Wooho! No Errors');
-        //route.go("/post/list");
+        // route.go("/post/list");
         route.go('/');
       }
     });

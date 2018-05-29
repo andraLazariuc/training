@@ -9,5 +9,3 @@ import '/imports/api/posts/server/publication.js';
 import '/imports/api/comments/server/publication.js';
 
 import '/imports/api/hooks';
-/*import '/imports/api/comments/hooks';
-import '/imports/api/posts/hooks';*/
